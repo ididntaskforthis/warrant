@@ -137,7 +137,7 @@ class Cognito(object):
             self, user_pool_id, client_id,user_pool_region=None,
             username=None, id_token=None, refresh_token=None,
             access_token=None, client_secret=None,
-            access_key=None, secret_key=None, user_context_data={}
+            access_key=None, secret_key=None, user_context_data={}, client_metadata={}
             ):
         """
         :param user_pool_id: Cognito User Pool ID
@@ -159,6 +159,7 @@ class Cognito(object):
         self.refresh_token = refresh_token
         self.client_secret = client_secret
         self.user_context_data = user_context_data
+        self.client_metadata = client_metadata
         self.token_type = None
         self.custom_attributes = None
         self.base_attributes = None
@@ -573,6 +574,7 @@ class Cognito(object):
         params = {
             'ClientId': self.client_id,
             'UserContextData': self.user_context_data,
+            'ClientMetadata': self.client_metadata,
             'Username': self.username
         }
         self._add_secret_hash(params, 'SecretHash')
@@ -602,6 +604,7 @@ class Cognito(object):
         """
         params = {'ClientId': self.client_id,
                   'UserContextData': self.user_context_data,
+                  'ClientMetadata': self.client_metadata,
                   'Username': self.username,
                   'ConfirmationCode': confirmation_code,
                   'Password': password
