@@ -2,8 +2,11 @@ import os
 
 from setuptools import setup, find_packages
 
-install_reqs = parse_requirements('requirements.txt', session=False)
-test_reqs = parse_requirements('requirements_test.txt', session=False)
+def requirements_from_file(filename='requirements.txt'):
+    with open(os.path.join(os.path.dirname(__file__), filename)) as r:
+        reqs = r.read().strip().split('\n')
+    # Return non emtpy lines and non comments
+    return [r for r in reqs if re.match(r"^\w+", r)]
 
 version = '0.6.2'
 
@@ -15,8 +18,9 @@ setup(
     description=README,
     long_description=README,
     classifiers=[
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Environment :: Web Environment",
     ],
@@ -29,7 +33,7 @@ setup(
     license='Apache License 2.0',
     install_requires=[str(ir.req) for ir in install_reqs],
     extras_require={
-        'test': [str(ir.req) for ir in test_reqs]
+        'dev': requirements_from_file('requirements_test.txt')
     },
     include_package_data=True,
     zip_safe=True,
