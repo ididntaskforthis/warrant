@@ -31,7 +31,7 @@ setup(
     packages=find_packages(),
     url='https://github.com/capless/warrant',
     license='Apache License 2.0',
-    install_requires=[str(ir.req) for ir in install_reqs],
+    install_requires=requirements_from_file(),
     extras_require={
         'dev': requirements_from_file('requirements_test.txt')
     },
